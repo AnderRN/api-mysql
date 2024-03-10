@@ -1,12 +1,7 @@
-from flask import Flask , jsonify
-from 
+from flask import Flask , jsonify, request
 import pymysql.cursors
 
 app = Flask(__name__)
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
 
 def connection_mysql():
     connection = pymysql.connect(host='localhost',
@@ -17,7 +12,7 @@ def connection_mysql():
     return connection                                 
 
 
-@app.route('/users', methods=["POST"])
+@app.route('/crear', methods=["POST"])
 def create():
     data = request.get_json()
     connection = connection_mysql()
@@ -35,7 +30,7 @@ def create():
     }), 201
 
 
-@app.route('/users', methods=["GET"])
+@app.route('/leer', methods=["GET"])
 def listar():
     connection = connection_mysql()
         
@@ -51,7 +46,7 @@ def listar():
         }), 200
 
 
-@app.route('/users', methods=["PUT"])
+@app.route('/update', methods=["PUT"])
 def update():
     connection = connection_mysql()
 
@@ -66,7 +61,7 @@ def update():
 
 
 
-@app.route('/users', methods=["DELETE"])
+@app.route('/eliminar', methods=["DELETE"])
 def delete():
     connection = connection_mysql()
 
@@ -78,3 +73,6 @@ def delete():
         return jsonify({
             'message': 'datos eliminados'
         }), 200
+    
+if __name__ == '__main__':
+    app.run(debug=True)
